@@ -1,2 +1,2 @@
-# LAW
+# LAW Project
 Learn and win
