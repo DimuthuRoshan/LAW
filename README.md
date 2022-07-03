@@ -1,0 +1,2 @@
+# LAW
+Learn and win
