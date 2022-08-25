@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import jwtDecode from "jwt-decode";
 
 interface GoogleLoginProps {
@@ -7,6 +7,7 @@ interface GoogleLoginProps {
 }
 
 const GoogleLogin = (props: GoogleLoginProps) => {
+  console.log("TESTTESTTEST");
   const { onSignInError, onSignInSuccess } = props;
   useEffect(() => {
     /** glable google object */
@@ -30,15 +31,15 @@ const GoogleLogin = (props: GoogleLoginProps) => {
     if (Object.keys(userObject).length !== 0) {
       onSignInSuccess(userObject);
     } else {
-      console.log('USER OBJECT VALUE')
-      console.log(userObject)
-      console.log('response')
-      console.log(response)
+      console.log("USER OBJECT VALUE");
+      console.log(userObject);
+      console.log("response");
+      console.log(response);
       onSignInError({ error: "sign in failed" });
     }
   };
 
-  return <div id={"googleLogin"}></div>;
+  return <div style={{ marginLeft: "15px" }} id={"googleLogin"}></div>;
 };
 
-export default GoogleLogin;
+export default memo(GoogleLogin);

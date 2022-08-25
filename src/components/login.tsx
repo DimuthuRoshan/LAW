@@ -9,37 +9,43 @@ import {
   Avatar,
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Visibility from "@mui/icons-material/Visibility";
 import PersonIcon from "@mui/icons-material/Person";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import GoogleLogin from "./GoogleLogin/GoogleLogin";
-import { useNavigate } from "react-router-dom";
+import { userService } from "../services/UserService";
 
 const Login = () => {
-  let navigate = useNavigate();
+  console.log("Login Login Login");
+  const { userLogin } = userService();
   const [showPassword, setShowPassword] = useState(false);
+  const [userName, setUserName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-  const handleVisibility = () => {
-    if (showPassword) {
-      setShowPassword(false);
-    } else {
-      setShowPassword(true);
-    }
-  };
+  /**s
+   * Handle visibility of the password
+   * @returns void
+   */
+  const handleVisibility = () =>
+    showPassword ? setShowPassword(false) : setShowPassword(true);
 
-  const handleLogin = (user: {}) => {
-    navigate("/home", { state: { user } });
-  };
+  /**
+   * Update the userName state on input change
+   * @param event React.ChangeEvent<HTMLInputElement>
+   * @returns void
+   */
+  const handleOnUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setUserName(event.target.value);
 
-  const handleSignInSuccess = (user: {}) => {
-    console.log(user);
-    handleLogin(user);
-  };
+  /**
+   * Update the password state on input change
+   * @param event React.ChangeEvent<HTMLInputElement>
+   * @returns void
+   */
+  const handleOnPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setPassword(event.target.value);
 
-  const handleSignInError = (error: {}) => {
-    console.log(error);
-  };
+  const handleLogin = () => userLogin(userName, password);
 
   return (
     <Box>
@@ -54,6 +60,8 @@ const Login = () => {
           id='user-name'
           type={"text"}
           placeholder={"User name"}
+          value={userName}
+          onChange={handleOnUserNameChange}
           endAdornment={
             <InputAdornment position='end'>
               <IconButton aria-label='user name' edge='end'>
@@ -66,6 +74,8 @@ const Login = () => {
           id='outlined-adornment-password'
           type={showPassword ? "text" : "password"}
           placeholder={"Password"}
+          value={password}
+          onChange={handleOnPasswordChange}
           endAdornment={
             <InputAdornment position='end'>
               <IconButton
@@ -81,10 +91,6 @@ const Login = () => {
         <Button variant='contained' onClick={handleLogin}>
           LOGIN
         </Button>
-        <GoogleLogin
-          onSignInSuccess={handleSignInSuccess}
-          onSignInError={handleSignInError}
-        />
       </Stack>
     </Box>
   );

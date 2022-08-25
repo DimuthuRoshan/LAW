@@ -4,19 +4,18 @@ import Login from "./components/login";
 import Home from "./Pages/Home/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Grid } from "@mui/material";
-import { loader } from "graphql.macro";
-import { useQuery } from "@apollo/client";
-import {getAllUsers} from "./services/UserService"
-
-const GET_LOCATIONS = loader("./graphql/queries/getLocations.graphql");
+import GoogleLogin from "./components/GoogleLogin/GoogleLogin";
 
 function App() {
   console.log(process.env);
-  getAllUsers()
 
-  const { data } = useQuery(GET_LOCATIONS);
+  const handleSignInSuccess = (user: {}) => {
+    console.log(user);
+  };
 
-  console.log(data);
+  const handleSignInError = (error: {}) => {
+    console.log(error);
+  };
 
   const LoginWrapper = () => (
     <Grid
@@ -29,6 +28,10 @@ function App() {
     >
       <Grid item xs={3}>
         <Login />
+        <GoogleLogin
+          onSignInSuccess={handleSignInSuccess}
+          onSignInError={handleSignInError}
+        />
       </Grid>
     </Grid>
   );
